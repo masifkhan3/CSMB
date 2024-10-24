@@ -3,8 +3,8 @@ from PIL import Image
 import os
 
 # Title of the app
-st.title("Chlorine, HCl, Hydrogen Production Calculator")
-st.markdown("### Developed by [Your Name or Company]")
+st.title("Chlor Alkali Products & Material Balance  ")
+st.markdown("### Developed by [NIMIR]")
 
 # Load NIMIR logo
 logo_path = 'images/nimir_logo.png'  # Change this path if needed
@@ -106,4 +106,4 @@ if st.button('Calculate'):
 
 # Footer with attribution
 st.markdown("---")
-st.markdown("Developed by [Your Name or Company]")
+st.markdown("Developed by mak3.8]")
