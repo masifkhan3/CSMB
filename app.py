@@ -4,7 +4,7 @@ import os
 
 # Title of the app
 st.title("Chlor Alkali Products & Material Balance  ")
-st.markdown("### Developed by [NIMIR]")
+st.markdown("### Company Name [NIMIR]")
 
 # Load NIMIR logo
 logo_path = 'images/nimir_logo.png'  # Change this path if needed
