@@ -22,7 +22,7 @@ def calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_
     chlorine_neutralization = 0.017  # 1.7% of Chlorine is neutralized
     hcl_chlorine_usage = 0.32  # 32% of Chlorine is used to produce HCl
     in_house_hcl = 0.05  # 5% of Caustic Soda used in-house for HCl production
-    power_rate_per_ton = 2150.0  # Power consumption per ton of Caustic Soda in KWH
+    power_rate_per_ton = 2400.0  # Power consumption per ton of Caustic Soda in KWH
     hydrogen_production_percentage = 0.026  # Hydrogen production as 2.6% of Caustic Soda production
 
     # ---- Chlorine and HCl calculations ----
