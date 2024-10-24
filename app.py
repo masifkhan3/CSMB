@@ -1,4 +1,16 @@
 import streamlit as st
+logo = Image.open('images/nimir_logo.png')
+logo = Image.open('/full/path/to/nimir_logo.png')
+import os
+from PIL import Image
+
+logo_path = 'nimir_logo.png'
+if os.path.exists(logo_path):
+    logo = Image.open(logo_path)
+else:
+    st.warning("NIMIR logo not found. Please ensure the file is in the correct directory.")
+    logo = None
+
 from PIL import Image
 
 # Load NIMIR logo
