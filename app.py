@@ -16,7 +16,7 @@ else:
     st.warning("NIMIR logo not found. Please ensure the image file is in the correct folder.")
 
 # Function to calculate chlorine, HCl, hydrogen production, power consumption, and CS ELZ load
-def calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_chlorine_prod, hcl_hydrogen_usage, stearic_hydrogen_usage):
+def calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_chlorine_prod, stearic_batches, hcl_hydrogen_usage):
     chlorine_factor = 0.889  # Chlorine production as a fraction of Caustic Soda production
     hypo_chlorine_usage = 0.22  # 22% of Hypo production uses Chlorine
     chlorine_neutralization = 0.017  # 1.7% of Chlorine is neutralized
@@ -40,7 +40,7 @@ def calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_
     hydrogen_prod_nm3 = hydrogen_prod_mt * 34819 / 3.12  # Convert to normal cubic meters (NM3) based on 3.12 MT
 
     hydrogen_used_in_hcl = hcl_hydrogen_usage  # Hydrogen used in HCl production
-    hydrogen_used_in_stearic = stearic_hydrogen_usage  # Hydrogen used in Stearic Acid batches
+    hydrogen_used_in_stearic = stearic_batches * 600  # Hydrogen used in Stearic Acid batches (No of batches * 600 NM3)
     total_hydrogen_usage = hydrogen_used_in_hcl + hydrogen_used_in_stearic  # Total hydrogen used
     balance_hydrogen_nm3 = hydrogen_prod_nm3 - total_hydrogen_usage  # Remaining hydrogen after usage
     balance_waste_percentage = (balance_hydrogen_nm3 / hydrogen_prod_nm3) * 100 if hydrogen_prod_nm3 > 0 else 0  # Percentage of hydrogen wasted
@@ -63,6 +63,7 @@ def calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_
         'net_hcl_for_sale': net_hcl_for_sale,
         'hydrogen_prod_mt': hydrogen_prod_mt,
         'hydrogen_prod_nm3': hydrogen_prod_nm3,
+        'hydrogen_used_in_stearic': hydrogen_used_in_stearic,
         'balance_hydrogen_nm3': balance_hydrogen_nm3,
         'balance_waste_percentage': balance_waste_percentage,
         'total_power_used': total_power_used,
@@ -74,14 +75,14 @@ def calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_
 caustic_soda_prod = st.number_input("Enter Caustic Soda production in tons (TPD):", min_value=0.0, step=0.1)
 sodium_hypo_prod = st.number_input("Enter Sodium Hypochlorite production in tons:", min_value=0.0, step=0.1)
 liquid_chlorine_prod = st.number_input("Enter Liquid Chlorine production in tons:", min_value=0.0, step=0.1)
+stearic_batches = st.number_input("Enter number of Stearic Acid Batches:", min_value=0, step=1)
 
-# Fixed hydrogen usage data
+# Fixed hydrogen usage data for HCl production
 hcl_hydrogen_usage = 17228  # Hydrogen used in HCl production (NM3)
-stearic_hydrogen_usage = 5400  # Hydrogen used in Stearic Acid production (NM3)
 
 # Perform calculations when the user clicks the button
 if st.button('Calculate'):
-    results = calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_chlorine_prod, hcl_hydrogen_usage, stearic_hydrogen_usage)
+    results = calculate_chlorine_hcl_hydrogen(caustic_soda_prod, sodium_hypo_prod, liquid_chlorine_prod, stearic_batches, hcl_hydrogen_usage)
 
     # Display the results
     st.subheader("Results")
@@ -94,6 +95,7 @@ if st.button('Calculate'):
     st.write(f"**Net HCl Available for Sale:** {results['net_hcl_for_sale']:.2f} tons")
     
     st.write(f"**Hydrogen Production:** {results['hydrogen_prod_mt']:.2f} MT or {results['hydrogen_prod_nm3']:.2f} NM3")
+    st.write(f"**Hydrogen Used in Stearic Acid Batches:** {results['hydrogen_used_in_stearic']:.2f} NM3")
     st.write(f"**Balance Hydrogen Waste:** {results['balance_hydrogen_nm3']:.2f} NM3")
     st.write(f"**Balance Hydrogen Waste Percentage:** {results['balance_waste_percentage']:.2f}%")
     
